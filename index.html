@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* The Modal (background) */
+      .modal {
+        display: block; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content */
+      .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border-radius: 25px;
+        width: 80%;
+      }
+
+      /* The Close Button */
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+    <title>hello feature flag</title>
+    <script src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script>
+  </head>
+  <body>
+    <img src="./static/petco_logo.png" />
+    <h1>PETCO homepage</h1>
+    <div>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Stay Informed</h2>
+          <img src="./static/cute_pup.jpg" style="max-height:250px" />
+        </div>
+      </div>
+      <div id="homepage-container">
+        <img
+          src="static/petco_sc.png"
+          id="petco-sc"
+          height="100%"
+          width="100%"
+        />
+      </div>
+    </div>
+    <script>
+      var users = [
+        {
+          firstName: "Bob",
+          lastName: "Loblaw",
+          key: "bob.loblaw@gmail.com",
+          custom: {
+            groups: ["dog_lovers", "authenticated"]
+          }
+        },
+        {
+          firstName: "Ricky",
+          lastName: "Dinh",
+          key: "ricky.dinh@gmail.com",
+          custom: {
+            groups: ["cat_lovers", "authenticated"]
+          }
+        },
+        {
+          firstName: "anon",
+          lastName: "anon",
+          key: "anon",
+          custom: {
+            groups: []
+          }
+        }
+      ];
+
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      let random = getRandomInt(0, users.length - 1);
+      let user = users[random];
+      console.log(
+        "logged in user is ",
+        user.firstName + user.lastName,
+        "in group",
+        user.custom.groups
+      );
+
+      // Get the modal
+      var modal = document.getElementById("myModal");
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("myBtn");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      /* WITH LAUNCH DARKLY
+      var div = document.createElement("div");
+      document.body.appendChild(div);
+
+      div.appendChild(document.createTextNode("Initializing..."));
+
+      var ldclient = LDClient.initialize("5e48c57c7f9da507d3e695bf", user);
+
+      
+      function render() {
+        var shouldShow = ldclient.variation("email-sign-up", false);
+        console.log("user", user.key, "ldclient.variation", shouldShow);
+        if (shouldShow) {
+          label = "showing email sign up widget";
+        } else label = "not showing email sign up widget";
+        div.replaceChild(document.createTextNode(label), div.firstChild);
+      }*/
+
+      //ldclient.on("ready", render);
+      //ldclient.on("change", render);
+      
+    </script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.8.2/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/7.8.2/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+  </body>
+</html>
