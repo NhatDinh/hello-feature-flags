@@ -53,21 +53,32 @@
     <script src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script>
   </head>
   <body>
-      <div id="homepage-container">
-        <img
-          src="static/petco_sc.png"
-          id="petco-sc"
-          height="100%"
-          width="100%"
-        />
+    <div>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>STAY INFORMED</h2>
+          <p>
+            Be the first to find out about offers, discounts & more from Petco
+          </p>
+          <img
+            src="./static/cute_pup.jpg"
+            style="max-width:250px;max-height:250px"
+          />
+          <span>Email Sign-up </span><input />
+        </div>
       </div>
+    <div id="homepage-container">
+      <img src="static/petco_sc.png" id="petco-sc" height="100%" width="100%" />
     </div>
     <script>
       //database
       var users = [
         {
-          firstName: "Bob",
-          lastName: "Loblaw",
+          firstName: "Eddie Venom",
+          lastName: "Brock",
           key: "bob.loblaw@gmail.com",
           custom: {
             groups: ["dog_lovers", "authenticated"]
@@ -92,7 +103,6 @@
       ];
 
       //utils
-
       function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -102,27 +112,49 @@
       let random = getRandomInt(0, users.length - 1);
       let user = users[random];
       console.log(
-        "logged in user is ",
-        user.firstName + user.lastName,
+        "logged in user is - First Name:",
+        user.firstName + " - Last Name: " + user.lastName,
         "in group",
         user.custom.groups
       );
 
-      // WITH LAUNCH DARKLY
-      /*
+      function askForEmail() {
+        // Get the modal & enable modal
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        };
+      }
+      //window.onload(askForEmail());
+      //WITH LAUNCH DARKLY
       var ldclient = LDClient.initialize("5e48c57c7f9da507d3e695bf", user);
 
       function render() {
-        var shouldShow = ldclient.variation("email-sign-up", false);
-        console.log("user", user.key, "ldclient.variation", shouldShow);
+        var shouldShow = ldclient.variation("new-email-opt-in", false);
         if (shouldShow) {
           askForEmail();
         } else;
-      }
+      };
 
       ldclient.on("ready", render);
       ldclient.on("change", render);
-      */
+      
+      
     </script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="/__/firebase/7.8.2/firebase-app.js"></script>
